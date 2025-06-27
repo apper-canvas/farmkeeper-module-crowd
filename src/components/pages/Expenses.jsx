@@ -12,6 +12,7 @@ import Card from '@/components/atoms/Card'
 import ApperIcon from '@/components/ApperIcon'
 import { expenseService } from '@/services/api/expenseService'
 import { farmService } from '@/services/api/farmService'
+import { generateCSV, generatePDF, downloadFile } from '@/utils/exportUtils'
 
 const Expenses = () => {
   const [expenses, setExpenses] = useState([])
@@ -175,24 +176,80 @@ const Expenses = () => {
       Insurance: 'text-indigo-600 bg-indigo-50',
       Other: 'text-pink-600 bg-pink-50'
     }
-    return colors[category] || 'text-gray-600 bg-gray-50'
+return colors[category] || 'text-gray-600 bg-gray-50'
+  }
+
+  const handleExportCSV = async () => {
+    try {
+      const filters = {}
+      if (filterFarm) filters.farmId = filterFarm
+      if (filterCategory) filters.category = filterCategory
+      
+      const exportData = await expenseService.exportToCSV(filters)
+      const csvContent = generateCSV(exportData, farms)
+      
+      const filename = `expenses-${format(new Date(), 'yyyy-MM-dd')}.csv`
+      downloadFile(csvContent, filename, 'text/csv')
+      
+      toast.success(`CSV exported successfully! ${exportData.length} records exported.`)
+    } catch (error) {
+      toast.error('Failed to export CSV')
+    }
+  }
+
+  const handleExportPDF = async () => {
+    try {
+      const filters = {}
+      if (filterFarm) filters.farmId = filterFarm
+      if (filterCategory) filters.category = filterCategory
+      
+      const exportData = await expenseService.exportToPDF(filters)
+      const pdf = generatePDF(exportData, farms)
+      
+      const filename = `expenses-${format(new Date(), 'yyyy-MM-dd')}.pdf`
+      pdf.save(filename)
+      
+      toast.success(`PDF exported successfully! ${exportData.length} records exported.`)
+    } catch (error) {
+      toast.error('Failed to export PDF')
+    }
   }
 
   if (loading) return <Loading type="cards" count={6} />
   if (error) return <Error message={error} onRetry={loadData} />
 
   return (
-    <div className="p-4 lg:p-6">
+<div className="p-4 lg:p-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Expenses</h1>
         
-        <Button
-          variant="primary"
-          icon="Plus"
-          onClick={() => setShowAddForm(true)}
-        >
-          Add Expense
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            icon="Download"
+            onClick={handleExportCSV}
+            className="text-green-600 border-green-600 hover:bg-green-50"
+          >
+            Export CSV
+          </Button>
+          
+          <Button
+            variant="outline"
+            icon="FileText"
+            onClick={handleExportPDF}
+            className="text-red-600 border-red-600 hover:bg-red-50"
+          >
+            Export PDF
+          </Button>
+          
+          <Button
+            variant="primary"
+            icon="Plus"
+            onClick={() => setShowAddForm(true)}
+          >
+            Add Expense
+          </Button>
+        </div>
       </div>
 
       {/* Filters */}

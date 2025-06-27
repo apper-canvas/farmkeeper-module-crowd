@@ -63,7 +63,37 @@ export const expenseService = {
     if (index === -1) {
       throw new Error('Expense not found')
     }
-    expenses.splice(index, 1)
+expenses.splice(index, 1)
     return true
+  },
+
+  async exportToCSV(filters = {}) {
+    await delay(400)
+    let exportExpenses = [...expenses]
+    
+    if (filters.farmId) {
+      exportExpenses = exportExpenses.filter(e => e.farmId === filters.farmId)
+    }
+    
+    if (filters.category) {
+      exportExpenses = exportExpenses.filter(e => e.category === filters.category)
+    }
+    
+    return exportExpenses
+  },
+
+  async exportToPDF(filters = {}) {
+    await delay(500)
+    let exportExpenses = [...expenses]
+    
+    if (filters.farmId) {
+      exportExpenses = exportExpenses.filter(e => e.farmId === filters.farmId)
+    }
+    
+    if (filters.category) {
+      exportExpenses = exportExpenses.filter(e => e.category === filters.category)
+    }
+    
+    return exportExpenses
   }
 }
