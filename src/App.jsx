@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import { motion } from 'framer-motion'
+import { useEffect } from 'react'
 import Layout from '@/components/organisms/Layout'
 import Dashboard from '@/components/pages/Dashboard'
 import Farms from '@/components/pages/Farms'
@@ -8,8 +9,13 @@ import Crops from '@/components/pages/Crops'
 import Tasks from '@/components/pages/Tasks'
 import Expenses from '@/components/pages/Expenses'
 import Weather from '@/components/pages/Weather'
-
+import { notificationService } from '@/services/api/notificationService'
 function App() {
+  useEffect(() => {
+    // Initialize notification service
+    notificationService.init()
+  }, [])
+
   return (
     <Router>
       <motion.div 

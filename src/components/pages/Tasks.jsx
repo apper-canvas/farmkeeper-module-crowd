@@ -23,6 +23,8 @@ const Tasks = () => {
   const [editingTask, setEditingTask] = useState(null)
   const [filterStatus, setFilterStatus] = useState('all')
   const [filterFarm, setFilterFarm] = useState('')
+  const [showNotificationSettings, setShowNotificationSettings] = useState(false)
+  const [notificationPermission, setNotificationPermission] = useState('default')
   const [formData, setFormData] = useState({
     farmId: '',
     cropId: '',
@@ -68,8 +70,9 @@ const Tasks = () => {
     }
   }
 
-  useEffect(() => {
+useEffect(() => {
     loadData()
+    setNotificationPermission(taskService.getNotificationPermissionStatus())
   }, [])
 
   const filteredTasks = tasks.filter(task => {
@@ -181,18 +184,42 @@ const Tasks = () => {
   if (loading) return <Loading type="list" count={8} />
   if (error) return <Error message={error} onRetry={loadData} />
 
+const handleRequestNotificationPermission = async () => {
+    const granted = await taskService.requestNotificationPermission()
+    if (granted) {
+      setNotificationPermission('granted')
+    }
+  }
+
+  const handleTestNotification = async () => {
+    await taskService.testNotification()
+  }
+
   return (
     <div className="p-4 lg:p-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Tasks</h1>
         
-        <Button
-          variant="primary"
-          icon="Plus"
-          onClick={() => setShowAddForm(true)}
-        >
-          Add Task
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            icon="Bell"
+            onClick={() => setShowNotificationSettings(true)}
+            className="relative"
+          >
+            Notifications
+            {notificationPermission === 'granted' && (
+              <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full"></span>
+            )}
+          </Button>
+          <Button
+            variant="primary"
+            icon="Plus"
+            onClick={() => setShowAddForm(true)}
+          >
+            Add Task
+          </Button>
+        </div>
       </div>
 
       {/* Filters */}
@@ -353,6 +380,117 @@ const Tasks = () => {
                   </Button>
                 </div>
               </form>
+            </motion.div>
+          </motion.div>
+)}
+      </AnimatePresence>
+
+      {/* Notification Settings Modal */}
+      <AnimatePresence>
+        {showNotificationSettings && (
+          <motion.div
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-white rounded-xl p-6 w-full max-w-md"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold">Notification Settings</h2>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  icon="X" 
+                  onClick={() => setShowNotificationSettings(false)} 
+                />
+              </div>
+
+              <div className="space-y-4">
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-medium">Push Notifications</span>
+                    <span className={`px-2 py-1 text-xs rounded-full ${
+                      notificationPermission === 'granted' 
+                        ? 'bg-green-100 text-green-700' 
+                        : notificationPermission === 'denied'
+                        ? 'bg-red-100 text-red-700'
+                        : 'bg-yellow-100 text-yellow-700'
+                    }`}>
+                      {notificationPermission === 'granted' ? 'Enabled' : 
+                       notificationPermission === 'denied' ? 'Blocked' : 'Not Set'}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-3">
+                    Get reminders for upcoming tasks like watering, fertilizing, and harvesting.
+                  </p>
+                  
+                  {notificationPermission !== 'granted' && (
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={handleRequestNotificationPermission}
+                      className="w-full"
+                    >
+                      Enable Notifications
+                    </Button>
+                  )}
+                </div>
+
+                {notificationPermission === 'granted' && (
+                  <div className="space-y-3">
+                    <div className="p-3 border border-gray-200 rounded-lg">
+                      <div className="flex items-center space-x-2 mb-1">
+                        <ApperIcon name="Clock" size={16} className="text-blue-500" />
+                        <span className="text-sm font-medium">Reminder Schedule</span>
+                      </div>
+                      <ul className="text-xs text-gray-600 space-y-1">
+                        <li>• 1 day before due date</li>
+                        <li>• 1 hour before due date</li>
+                        <li>• On due date</li>
+                      </ul>
+                    </div>
+
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleTestNotification}
+                      className="w-full"
+                    >
+                      Test Notification
+                    </Button>
+                  </div>
+                )}
+
+                {notificationPermission === 'denied' && (
+                  <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+                    <p className="text-sm text-red-700">
+                      Notifications are blocked. Please enable them in your browser settings to receive task reminders.
+                    </p>
+                  </div>
+                )}
+
+                {!taskService.isNotificationSupported() && (
+                  <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <p className="text-sm text-yellow-700">
+                      Your browser doesn't support push notifications.
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex justify-end pt-4 mt-4 border-t border-gray-200">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowNotificationSettings(false)}
+                >
+                  Close
+                </Button>
+              </div>
             </motion.div>
           </motion.div>
         )}

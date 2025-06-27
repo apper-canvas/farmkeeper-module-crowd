@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { format } from 'date-fns'
 import ApperIcon from '@/components/ApperIcon'
 import Button from '@/components/atoms/Button'
-
+import { taskService } from '@/services/api/taskService'
 const TaskItem = ({ task, onToggleComplete, onEdit, onDelete }) => {
   const getTaskIcon = (type) => {
     const icons = {
@@ -30,9 +30,9 @@ const TaskItem = ({ task, onToggleComplete, onEdit, onDelete }) => {
     return colors[type] || 'text-gray-600 bg-gray-50'
   }
 
-  const isOverdue = new Date(task.dueDate) < new Date() && !task.completed
+const isOverdue = new Date(task.dueDate) < new Date() && !task.completed
   const isDueSoon = new Date(task.dueDate) - new Date() < 24 * 60 * 60 * 1000 && !task.completed
-
+  const hasNotifications = taskService.isNotificationSupported() && taskService.getNotificationPermissionStatus() === 'granted'
   return (
     <motion.div
       className={`
@@ -94,9 +94,15 @@ const TaskItem = ({ task, onToggleComplete, onEdit, onDelete }) => {
               </div>
             )}
           </div>
-        </div>
+</div>
         
         <div className="flex items-center space-x-2 ml-4">
+          {hasNotifications && !task.completed && (
+            <div className="flex items-center text-xs text-gray-500">
+              <ApperIcon name="Bell" size={12} className="mr-1" />
+              <span>Reminders on</span>
+            </div>
+          )}
           <Button
             variant="ghost"
             size="sm"
