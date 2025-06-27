@@ -1,0 +1,23 @@
+[
+  {
+    "Id": 1,
+    "name": "Green Valley Farm",
+    "location": "Northern Field",
+    "size": 25,
+    "sizeUnit": "acres"
+  },
+  {
+    "Id": 2,
+    "name": "Sunset Acres",
+    "location": "Southern Valley",
+    "size": 18,
+    "sizeUnit": "acres"
+  },
+  {
+    "Id": 3,
+    "name": "Riverside Farm",
+    "location": "Eastern Ridge",
+    "size": 32,
+    "sizeUnit": "acres"
+  }
+]

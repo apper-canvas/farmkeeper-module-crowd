@@ -1,0 +1,37 @@
+[
+  {
+    "date": "2024-05-19",
+    "high": 78,
+    "low": 58,
+    "conditions": "Partly Cloudy",
+    "precipitation": 20
+  },
+  {
+    "date": "2024-05-20",
+    "high": 82,
+    "low": 62,
+    "conditions": "Sunny",
+    "precipitation": 10
+  },
+  {
+    "date": "2024-05-21",
+    "high": 75,
+    "low": 55,
+    "conditions": "Light Rain",
+    "precipitation": 75
+  },
+  {
+    "date": "2024-05-22",
+    "high": 71,
+    "low": 52,
+    "conditions": "Cloudy",
+    "precipitation": 45
+  },
+  {
+    "date": "2024-05-23",
+    "high": 79,
+    "low": 59,
+    "conditions": "Partly Cloudy",
+    "precipitation": 25
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "Id": 1,
+    "farmId": "1",
+    "category": "Seeds",
+    "amount": 245.50,
+    "date": "2024-03-10",
+    "description": "Tomato and corn seeds for spring planting"
+  },
+  {
+    "Id": 2,
+    "farmId": "1",
+    "category": "Fertilizer",
+    "amount": 180.00,
+    "date": "2024-03-15",
+    "description": "Organic fertilizer - 10 bags"
+  },
+  {
+    "Id": 3,
+    "farmId": "2",
+    "category": "Equipment",
+    "amount": 450.00,
+    "date": "2024-04-05",
+    "description": "New irrigation timer system"
+  },
+  {
+    "Id": 4,
+    "farmId": "2",
+    "category": "Labor",
+    "amount": 320.00,
+    "date": "2024-04-12",
+    "description": "Part-time help for planting season"
+  },
+  {
+    "Id": 5,
+    "farmId": "3",
+    "category": "Seeds",
+    "amount": 125.00,
+    "date": "2024-02-28",
+    "description": "Winter wheat seeds"
+  },
+  {
+    "Id": 6,
+    "farmId": "1",
+    "category": "Fuel",
+    "amount": 85.50,
+    "date": "2024-05-01",
+    "description": "Diesel fuel for tractor"
+  }
+]

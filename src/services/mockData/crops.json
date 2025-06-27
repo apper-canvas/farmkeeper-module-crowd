@@ -1,0 +1,52 @@
+[
+  {
+    "Id": 1,
+    "farmId": "1",
+    "type": "Tomato",
+    "plantingDate": "2024-03-15",
+    "expectedHarvestDate": "2024-06-15",
+    "location": "Greenhouse 1",
+    "quantity": 500,
+    "status": "growing"
+  },
+  {
+    "Id": 2,
+    "farmId": "1",
+    "type": "Corn",
+    "plantingDate": "2024-04-01",
+    "expectedHarvestDate": "2024-08-01",
+    "location": "North Field A",
+    "quantity": 1000,
+    "status": "growing"
+  },
+  {
+    "Id": 3,
+    "farmId": "2",
+    "type": "Lettuce",
+    "plantingDate": "2024-04-10",
+    "expectedHarvestDate": "2024-06-01",
+    "location": "Greenhouse 2",
+    "quantity": 300,
+    "status": "growing"
+  },
+  {
+    "Id": 4,
+    "farmId": "2",
+    "type": "Carrot",
+    "plantingDate": "2024-03-20",
+    "expectedHarvestDate": "2024-06-20",
+    "location": "South Field B",
+    "quantity": 800,
+    "status": "growing"
+  },
+  {
+    "Id": 5,
+    "farmId": "3",
+    "type": "Wheat",
+    "plantingDate": "2024-03-01",
+    "expectedHarvestDate": "2024-07-01",
+    "location": "Main Field",
+    "quantity": 2000,
+    "status": "growing"
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "Id": 1,
+    "farmId": "1",
+    "cropId": "1",
+    "title": "Water tomato plants",
+    "type": "watering",
+    "dueDate": "2024-05-20",
+    "completed": false,
+    "notes": "Check soil moisture before watering"
+  },
+  {
+    "Id": 2,
+    "farmId": "1",
+    "cropId": "2",
+    "title": "Apply fertilizer to corn",
+    "type": "fertilizing",
+    "dueDate": "2024-05-22",
+    "completed": false,
+    "notes": "Use nitrogen-rich fertilizer"
+  },
+  {
+    "Id": 3,
+    "farmId": "2",
+    "cropId": "3",
+    "title": "Harvest lettuce",
+    "type": "harvesting",
+    "dueDate": "2024-05-25",
+    "completed": false,
+    "notes": "Early morning harvest for best quality"
+  },
+  {
+    "Id": 4,
+    "farmId": "2",
+    "cropId": "4",
+    "title": "Thin carrot seedlings",
+    "type": "weeding",
+    "dueDate": "2024-05-18",
+    "completed": true,
+    "notes": "Space plants 2 inches apart"
+  },
+  {
+    "Id": 5,
+    "farmId": "3",
+    "cropId": "5",
+    "title": "Inspect wheat for pests",
+    "type": "inspection",
+    "dueDate": "2024-05-21",
+    "completed": false,
+    "notes": "Look for signs of aphids or rust"
+  }
+]
